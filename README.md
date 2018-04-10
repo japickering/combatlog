@@ -1,8 +1,8 @@
 ## Combat log project for an action RPG game
 
 ### Features
-Outputs simple combat text from player data in a text field. 
-I plan to extend it even further with better filtering. 
+Outputs combat text over time from player data to a single div element on the page.
+I plan to customise it even further with colour highlighting and improved filtering. 
 
 ## Installation
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
@@ -19,4 +19,6 @@ yarn build
 ```
 
 ## Changelog
+Wrote combat text functions
+Added timer
 Initial commit

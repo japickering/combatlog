@@ -35,7 +35,7 @@ h1 {
    font-weight: 500;
 }
 p {
-   color: #555;
+   color: inherit;
    font-size: 1rem;
    font-weight: normal;
 }
@@ -45,6 +45,13 @@ img {
    width: 100%;
    height: auto;
    border: 0;
+}
+.timer {
+   position: relative;
+   display: block;
+   margin: 5px 0;
+   font-size: 1rem;
+   font-weight: normal;
 }
 form {
    position: relative;
@@ -62,13 +69,10 @@ input[type="text"] {
 textarea {
    display: block;
    padding: 10px;
-   width: 50%;
-   max-width: 360px;
-   height: auto;
-   min-height: 150px;
+   width: 100%;
+   min-height: 300px;
    overflow-y: auto;
    background-color: #000;
-   /*color: indianred;*/
    color: #FFF;
    word-wrap: break-word;
    font-size: 1rem;
@@ -77,6 +81,25 @@ textarea {
    -webkit-border-radius: 0.25rem;
    border-radius: 0.25rem;
 }
+.textbox {
+   display: block;
+   padding: 10px;
+   width: 100%;
+   min-height: 300px;
+   background-color: #000;
+   color: #FFF;
+   font-size: 1rem;
+   font-weight: normal;
+   -webkit-border-radius: 0.25rem;
+   border-radius: 0.25rem;
+}
+.damage {
+   color: green;
+}
+.hit {
+   color: indianred;
+}
+
 button {
    margin: 0 5px;
    padding: 5px;
