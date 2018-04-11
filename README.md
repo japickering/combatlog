@@ -19,6 +19,7 @@ yarn build
 ```
 
 ## Changelog
+- added actions queue
 - hit and miss damage text
 - damage text highlighting
 - tick() and doCombatLog() changes 

@@ -96,72 +96,53 @@ class App extends React.Component {
       return "Total damage done: " + this.sum(ob.weapondmg, ob.powerdmg);
    }
 
+   // Require PC and NPC
    enemyAttacks(pc, npc){
       return this.doWeaponDamage(npc) + ' on ' + this.getFullName(pc);
    }
 
-   doCombatLog(seconds) {
-      let players = this.state.players;
-      let arr = this.state.messages;
+doCombatLog(seconds) {
+   let players = this.state.players;
+   let res = players.filter(function(pc) {
+      // return pc.classname === "sorcerer";
+      return pc.classname === "dragonknight";
+   });
+   let pc = res[0];
+   let targets = players.filter(function(target) {
+      return target.classname === "sorcerer";
+   });
+   let npc = targets[0];
 
-      // Get objects with matching player class names
-      let res = players.filter(function(pc) {
-         // return pc.classname === "sorcerer";
-         return pc.classname === "dragonknight";
-      });
-      let pc = res[0];
-
-      let targets = players.filter(function(npc) {
-         return npc.classname === "sorcerer";
-      });
-      let oTarget = targets[0];
-
-      const styles = {
-         message: {
-            color: "#fff"
-         },
-         hit: {
-            color: "crimson"
-         },
-         miss: {
-            color: "yellow"
-         }
+   const styles = {
+      message: {
+         color: "#fff"
+      },
+      dmg: {
+         color: "yellow"
+      },
+      hit: {
+         color: "crimson"
+      },
+      miss: {
+         color: "green"
       }
-
-      // Simulate combat round
-      switch(seconds){
-         case 0:
-            arr.push({id: seconds, text:this.getFullName(pc), style: styles.message} );
-            break;
-         case 1:
-            arr.push({id: seconds, text:this.doWeaponDamage(pc) + ' to ' + this.getFullName(oTarget), style: styles.hit} );
-            break;
-         case 2:
-            arr.push({id: seconds, text:this.missTarget(oTarget), style: styles.miss} );
-            break;
-         case 3:
-            arr.push({id: seconds, text:this.doPowerDamage(pc) + ' to ' + this.getFullName(oTarget), style: styles.hit} );
-            break;
-         case 4:
-            arr.push({id: seconds, text:this.totalDamageDone(pc) + ' to ' + this.getFullName(oTarget), style: styles.message} );
-            break;
-         case 5:
-            arr.push({id: seconds, text:this.getFullName(oTarget), style: styles.message} );
-            break;
-         case 6:
-            arr.push({id: seconds, text:this.enemyAttacks(pc, oTarget), style: styles.hit} );
-            break;
-         case 7:
-            arr.push({id: seconds, text: "End log", style: styles.message} );
-            break;
-         default:
-            // 
-      }
-      return arr;
    }
+   const actions = [
+      { text:this.getFullName(pc), style:styles.message },
+      { text:this.doWeaponDamage(pc), style:styles.dmg },
+      { text:this.missTarget(npc), style:styles.miss },
+      { text:this.totalDamageDone(pc), style:styles.dmg },
+      { text:this.getFullName(npc), style:styles.message },
+      { text:this.enemyAttacks(pc, npc), style:styles.hit },
+      { text:'End of log', style:styles.message }
+   ];
+   const concatItems = this.state.messages.concat(actions[seconds]);
+   // console.log(concatItems);
+   return concatItems;
+}
 
    tick() {
-      let timelimit = 8
+      let timelimit = 7
       if(this.state.seconds < timelimit) {
          this.items = this.doCombatLog(this.state.seconds);
          this.setState(prevState => ({
@@ -213,7 +194,7 @@ class App extends React.Component {
             <div className="textbox">
                {
                   this.state.messages.map((item) =>
-                     <div id={"msg" + item.id.toString()} className="damage-message" style={item.style}>
+                     <div className="damage-message" style={item.style}>
                      {item.text}
                      </div>
                   )
