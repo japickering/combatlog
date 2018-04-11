@@ -23,6 +23,7 @@ class App extends React.Component {
       this.missTarget = this.missTarget.bind(this);
       this.enemyAttacks = this.enemyAttacks.bind(this);
       this.items = [];
+      this.handleReloadClick = this.handleReloadClick.bind(this);
 
       this.state = {
          players: this.getPlayers(),
@@ -101,7 +102,7 @@ class App extends React.Component {
 
    doCombatLog(seconds) {
       let players = this.state.players;
-      let items = this.state.messages
+      let arr = this.state.messages;
 
       // Get objects with matching player class names
       let res = players.filter(function(pc) {
@@ -119,33 +120,33 @@ class App extends React.Component {
       // Simulate combat round
       switch(seconds){
          case 0:
-            items.push(this.getFullName(pc) )
+            arr.push(this.getFullName(pc) )
             break;
          case 1:
-            items.push(this.doWeaponDamage(pc) + ' to ' + this.getFullName(oTarget) );
+            arr.push(this.doWeaponDamage(pc) + ' to ' + this.getFullName(oTarget) );
             break;
          case 2:
-            items.push(this.missTarget(oTarget) );
+            arr.push(this.missTarget(oTarget) );
             break;
          case 3:
-            items.push(this.doPowerDamage(pc) + ' to ' + this.getFullName(oTarget) );
+            arr.push(this.doPowerDamage(pc) + ' to ' + this.getFullName(oTarget) );
             break;
          case 4:
-            items.push(this.totalDamageDone(pc) + ' to ' + this.getFullName(oTarget) );
+            arr.push(this.totalDamageDone(pc) + ' to ' + this.getFullName(oTarget) );
             break;
          case 5:
-            items.push(this.getFullName(oTarget) );
+            arr.push(this.getFullName(oTarget) );
             break;
          case 6:
-            items.push(this.enemyAttacks(pc, oTarget) );
+            arr.push(this.enemyAttacks(pc, oTarget) );
             break;
          case 7:
-            items.push("End log" );
+            arr.push("End log" );
             break;
          default:
             // 
       }
-      return items;
+      return arr;
    }
 
    tick() {
@@ -159,7 +160,7 @@ class App extends React.Component {
       } else {
          this.setState(prevState => ({
             messages: this.items,
-            seconds: prevState.seconds + 1
+            seconds: prevState.seconds
          }));
          clearInterval(this.interval);
       }
@@ -175,18 +176,31 @@ class App extends React.Component {
       clearInterval(this.interval);
    }
 
+   handleReloadClick(e){
+      e.preventDefault();
+      clearInterval(this.interval);
+      this.setState({
+         players: this.getPlayers(),
+         messages: [],
+         seconds: 0
+      });
+      this.interval = setInterval(() => 
+         this.tick(), 1000
+      );
+   }
+
    render() {
       // console.log(this.state.messages);
-      // let seconds = this.state.seconds;
       return (
          <main>
             <h1>Combat Log</h1>
+            <button onClick={this.handleReloadClick}>Reload</button>
             <div className="timer">
               <strong>Seconds:</strong> {this.state.seconds}
             </div>
             <div className="textbox">
                {this.state.messages.map(item => (
-                  <p>{item}</p>
+                  <div className="damage-message">{item}</div>
                ))}
             </div>
          </main>
