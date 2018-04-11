@@ -120,28 +120,28 @@ class App extends React.Component {
       // Simulate combat round
       switch(seconds){
          case 0:
-            arr.push(this.getFullName(pc) )
+            arr.push({id: seconds, text:this.getFullName(pc)} )
             break;
          case 1:
-            arr.push(this.doWeaponDamage(pc) + ' to ' + this.getFullName(oTarget) );
+            arr.push({id: seconds, text:this.doWeaponDamage(pc) + ' to ' + this.getFullName(oTarget)} );
             break;
          case 2:
-            arr.push(this.missTarget(oTarget) );
+            arr.push({id: seconds, text:this.missTarget(oTarget)} );
             break;
          case 3:
-            arr.push(this.doPowerDamage(pc) + ' to ' + this.getFullName(oTarget) );
+            arr.push({id: seconds, text:this.doPowerDamage(pc) + ' to ' + this.getFullName(oTarget)} );
             break;
          case 4:
-            arr.push(this.totalDamageDone(pc) + ' to ' + this.getFullName(oTarget) );
+            arr.push({id: seconds, text:this.totalDamageDone(pc) + ' to ' + this.getFullName(oTarget)} );
             break;
          case 5:
-            arr.push(this.getFullName(oTarget) );
+            arr.push({id: seconds, text:this.getFullName(oTarget)} );
             break;
          case 6:
-            arr.push(this.enemyAttacks(pc, oTarget) );
+            arr.push({id: seconds, text:this.enemyAttacks(pc, oTarget)} );
             break;
          case 7:
-            arr.push("End log" );
+            arr.push({id: seconds, text: "End log"} );
             break;
          default:
             // 
@@ -156,6 +156,7 @@ class App extends React.Component {
          this.setState(prevState => ({
             messages: this.items,
             seconds: prevState.seconds + 1
+            // seconds: prevState.seconds + .5
          }));
       } else {
          this.setState(prevState => ({
@@ -199,9 +200,13 @@ class App extends React.Component {
               <strong>Seconds:</strong> {this.state.seconds}
             </div>
             <div className="textbox">
-               {this.state.messages.map(item => (
-                  <div className="damage-message">{item}</div>
-               ))}
+               {
+                  this.state.messages.map((item) =>
+                     <div id={"msg" + item.id.toString()} className="damage-message">
+                     {item.text}
+                     </div>
+                  )
+               }
             </div>
          </main>
       );

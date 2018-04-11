@@ -19,6 +19,7 @@ yarn build
 ```
 
 ## Changelog
+- better damage text styling
 - damage text highlighting
 - tick() and doCombatLog() changes 
 - Fixed up combat text functions
