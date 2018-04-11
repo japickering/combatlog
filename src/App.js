@@ -116,32 +116,43 @@ class App extends React.Component {
       });
       let oTarget = targets[0];
 
+      const styles = {
+         message: {
+            color: "#fff"
+         },
+         hit: {
+            color: "crimson"
+         },
+         miss: {
+            color: "yellow"
+         }
+      }
 
       // Simulate combat round
       switch(seconds){
          case 0:
-            arr.push({id: seconds, text:this.getFullName(pc)} )
+            arr.push({id: seconds, text:this.getFullName(pc), style: styles.message} );
             break;
          case 1:
-            arr.push({id: seconds, text:this.doWeaponDamage(pc) + ' to ' + this.getFullName(oTarget)} );
+            arr.push({id: seconds, text:this.doWeaponDamage(pc) + ' to ' + this.getFullName(oTarget), style: styles.hit} );
             break;
          case 2:
-            arr.push({id: seconds, text:this.missTarget(oTarget)} );
+            arr.push({id: seconds, text:this.missTarget(oTarget), style: styles.miss} );
             break;
          case 3:
-            arr.push({id: seconds, text:this.doPowerDamage(pc) + ' to ' + this.getFullName(oTarget)} );
+            arr.push({id: seconds, text:this.doPowerDamage(pc) + ' to ' + this.getFullName(oTarget), style: styles.hit} );
             break;
          case 4:
-            arr.push({id: seconds, text:this.totalDamageDone(pc) + ' to ' + this.getFullName(oTarget)} );
+            arr.push({id: seconds, text:this.totalDamageDone(pc) + ' to ' + this.getFullName(oTarget), style: styles.message} );
             break;
          case 5:
-            arr.push({id: seconds, text:this.getFullName(oTarget)} );
+            arr.push({id: seconds, text:this.getFullName(oTarget), style: styles.message} );
             break;
          case 6:
-            arr.push({id: seconds, text:this.enemyAttacks(pc, oTarget)} );
+            arr.push({id: seconds, text:this.enemyAttacks(pc, oTarget), style: styles.hit} );
             break;
          case 7:
-            arr.push({id: seconds, text: "End log"} );
+            arr.push({id: seconds, text: "End log", style: styles.message} );
             break;
          default:
             // 
@@ -202,7 +213,7 @@ class App extends React.Component {
             <div className="textbox">
                {
                   this.state.messages.map((item) =>
-                     <div id={"msg" + item.id.toString()} className="damage-message">
+                     <div id={"msg" + item.id.toString()} className="damage-message" style={item.style}>
                      {item.text}
                      </div>
                   )

@@ -99,10 +99,7 @@ textarea {
 }
 .damage-message:hover {
    background-color: purple;
-   color: #FFC;
-}
-#msg2, #msg6 {
-   color: indianred;
+   color: #FFC!important;
 }
 button {
    margin: 0 5px;
