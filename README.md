@@ -1,15 +1,17 @@
-## Combat log project for an action RPG game
+## Combat log project for action RPG game
 
 ### Features
-Using React components this app displays combat text over time from player data in a  div element on the page.
-I plan to customise it even further with message highlighting and improved filtering. 
+Using React components this app displays combat text over time using player data output a textbox on the page.
+Status messages display in colours highlighting the game events taking place. In the finished product these events will be linked to graphics in the GUI I will create later on.
 
 ## Installation
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-To run the project git clone the repo to a local directory then Run the console commands into a terminal:
+First, you will need to install [node.js](https://nodejs.org).
+
+Next git clone the repo to a local directory and run these console commands into a terminal:
 ```bash
-cd gameoflife
+cd combatlog
 npm install
 npm start
 ```
