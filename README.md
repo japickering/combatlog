@@ -1,7 +1,7 @@
 ## Combat log project for action RPG game
 
 ### Features
-Using React components this app displays combat text over time using player data output a textbox on the page.
+This app displays combat text over time using player stats manipulated in realtime output to a textbox on the page.
 Status messages display in colours highlighting the game events taking place. In the finished product these events will be linked to graphics in the GUI I will create later on.
 
 ## Installation
@@ -21,6 +21,7 @@ yarn build
 ```
 
 ## Changelog
+- added dmg calculation and heal effects
 - added actions queue
 - hit and miss damage text
 - damage text highlighting
