@@ -65,13 +65,12 @@ class App extends React.Component {
          enemyhealth: enemy.health,
          messages: [],
          seconds: 0,
-         interval: 1000
       }
    }
 
    componentDidMount() {
       this.interval = setInterval(() => 
-         this.tick(), this.state.interval
+         this.tick(), 1000
       );
    }
 
@@ -88,9 +87,10 @@ class App extends React.Component {
          enemyhealth: enemy.health,
          messages: [],
          seconds: 0,
-         interval: 1000
       });
-      this.componentDidMount();
+      this.interval = setInterval(() => 
+         this.tick(), 1000
+      );
    }
 
    getFullName(ob) {
@@ -163,24 +163,13 @@ class App extends React.Component {
    doCombatLog(seconds) {
       let pc = this.state.player;
       let npc = this.state.enemy;
-
       const styles = {
-         message: {
-            color: "cyan"
-         },
-         dmg: {
-            color: "yellow"
-         },
-         hit: {
-            color: "crimson"
-         },
-         miss: {
-            color: "green"
-         },
-         heal: {
-            color: "pink"
-         }
-      }
+         message: {color: "white"},
+         dmg: {color: "lightgreen"},
+         hit: {color: "crimson"},
+         miss: {color: "green"},
+         heal: {color: "pink"}
+      };
       const actions = [
          { text:this.getPlayerInfo(pc), style:styles.message },
          { text:this.doWeaponDamage(pc), style:styles.dmg },

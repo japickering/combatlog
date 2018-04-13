@@ -1,17 +1,16 @@
-## Combat log project for action RPG game
+#Combat text for an action RPG
+Displays combat text over time using player stats manipulated from game events
 
-### Features
-This app displays combat text over time using player stats manipulated in realtime output to a textbox on the page.
-Status messages display in colours highlighting the game events taking place. In the finished product these events will be linked to graphics in the GUI I will create later on.
+## Features
+- Messages are highlighted in different colours reacting to game events taking place. 
+- Game objects can only perform actions while alive and display feedback about the game state.
 
-Latest test was adding health checks to ensure enemies can only perform actions while alive and display user feedback if this is true.
+![Screen shot](public/grab.png)
 
-## Installation
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+## Installation 
+Install [Node.js](https://nodejs.org) and [npm](https://www.npmjs.com/).
 
-First, you will need to install [node.js](https://nodejs.org).
-
-Next git clone the repo to a local directory and run these console commands into a terminal:
+Next git clone the repo to a local folder and run these console commands into a terminal:
 ```bash
 cd combatlog
 npm install
@@ -21,8 +20,7 @@ To create a new build for deployment run the console command then follow the ste
 ```bash
 yarn build
 ```
-
-## Changelog
+### Changelog
 - Added health checks to enemies
 - Split players stats into distinct objects
 - added dmg calculation and heal effects

@@ -17,6 +17,7 @@
 .env.production.local
 *.sublime-project
 *.sublime-workspace
+package-lock.*
 
 npm-debug.log*
 yarn.lock
