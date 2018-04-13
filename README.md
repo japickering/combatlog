@@ -1,4 +1,4 @@
-#Combat text for an action RPG
+## Combat text for an action RPG
 Displays combat text over time using player stats manipulated from game events
 
 ## Features
@@ -7,7 +7,7 @@ Displays combat text over time using player stats manipulated from game events
 
 ![Screen shot](public/grab.png)
 
-## Installation 
+### Installation 
 Install [Node.js](https://nodejs.org) and [npm](https://www.npmjs.com/).
 
 Next git clone the repo to a local folder and run these console commands into a terminal:
