@@ -21,6 +21,7 @@ To create a new build for deployment run the console command then follow the ste
 yarn build
 ```
 ### Changelog
+- Moved player & enemy objects to modules
 - Added health checks to enemies
 - Split players stats into distinct objects
 - added dmg calculation and heal effects
