@@ -1,29 +1,23 @@
 import React from 'react';
 import player from './entities/player';
 import enemy from './entities/enemy';
-import titleCase from './utils/titlecase.js';
+import targetInfo from './utils/targetinfo';
+import playerDamage from './actions/playerdamage';
+import enemyDamage from './actions/enemydamage';
+import leechLife from './actions/leechlife';
+import doWeaponDamage from './actions/doweapondamage';
+import doPowerDamage from './actions/dopowerdamage';
 
 class App extends React.Component {
 
    constructor(props) {
       super(props);
+      this.items = [];
       this.player = player;
       this.enemy = enemy;
-      this.maxhealth = 100;
-      this.kill = this.kill.bind(this);
-      this.beginCombat = this.beginCombat.bind(this);
-      this.getFullName = this.getFullName.bind(this);
-      this.getClassName = this.getClassName.bind(this);
-      this.getTargetInfo = this.getTargetInfo.bind(this);
-      this.doWeaponDamage = this.doWeaponDamage.bind(this);
-      this.doPowerDamage = this.doPowerDamage.bind(this);
       this.doCombatLog = this.doCombatLog.bind(this);
-      this.missTarget = this.missTarget.bind(this);
-      this.playerDealsDamage = this.playerDealsDamage.bind(this);
-      this.enemyDealsDamage = this.enemyDealsDamage.bind(this);
-      this.leechHealth = this.leechHealth.bind(this);
       this.handleReloadClick = this.handleReloadClick.bind(this);
-      this.items = [];
+      this.isDisplayAll = false;
 
       this.state = {
          messages: [],
@@ -32,116 +26,54 @@ class App extends React.Component {
    }
 
    componentDidMount() {
-      this.interval = setInterval(() => 
-         this.tick(), 500
-      );
-      // Optional instant display 
-      // this.items = this.doCombatLog();
-      // let results = this.items.map(function(item) {
-      //    return item;
-      // });
-      // this.setState({
-      //    messages: results
-      // });
-   }
-
-   componentWillUnmount() {
-      // clearInterval(this.interval);
+      if(this.isDisplayAll){
+         console.log('Display mode: all');
+         this.items = this.doCombatLog();
+         let results = this.items.map(function(item) {
+            return item;
+         });
+         this.setState({
+            messages: results
+         });
+      } else {
+         console.log('Display mode: timer');
+         this.interval = setInterval(() => 
+            this.tick(), 500
+         );
+      }
    }
 
    handleReloadClick(){
-      clearInterval(this.interval);
+      // clearInterval(this.interval);
       this.setState({
          messages: [],
          seconds: 0
       });
-      this.interval = setInterval(() => 
-         this.tick(), 500
-      );
-      // Optional instant display 
-      // this.items = this.doCombatLog();
-      // let results = this.items.map(function(item) {
-      //    return item;
-      // });
-      // this.setState({
-      //    messages: results
-      // });
-   }
-
-   getFullName(ob) {
-      return titleCase(ob.first) + " " + titleCase(ob.last);
-   }
-
-   getClassName(ob) {
-      return titleCase(ob.classname);
-   }
-
-   getTargetInfo(ob){
-      return this.getFullName(ob) + ' HP : ' + ob.health.toString();
-   }
-
-   missTarget(ob){
-      return "misses " + this.getFullName(ob);
-   }
-
-   doWeaponDamage(ob) {
-      return this.getFullName(ob) + ' attacks with ' + ob.weapon.name;
-   }
-
-   doPowerDamage(ob) {
-      return this.getFullName(ob) + ' attacks with ' +ob.power.name;
-   }
-
-   kill(ob){
-      return this.getFullName(ob) + ' is dead';
-   }
-
-   playerDealsDamage(pc, npc) {
-      let amount = pc.weapon.damage + pc.power.damage;
-      if(this.player.health <= 0) {
-         return this.getFullName(pc) + ' is dead';
-      } else if (npc.health > 0){
-         if(this.enemy.health === this.maxhealth){
-            this.enemy.health -= amount;
-         } else {
-            return 'total damage : ' + amount.toString();
-         }
+      if(this.isDisplayAll){
+         this.items = this.doCombatLog();
+         let results = this.items.map(function(item) {
+            return item;
+         });
+         this.setState({
+            messages: results
+         });
       } else {
-         return this.kill(npc);
+         this.interval = setInterval(() => 
+            this.tick(), 500
+         );
       }
    }
 
-   enemyDealsDamage(pc, npc){
-      let amount = npc.weapon.damage + npc.power.damage;
-      if(this.enemy.health <= 0) {
-         return this.getFullName(npc) + ' is dead';
-      } else if (pc.health > 0){
-         if(this.player.health === this.maxhealth){
-            this.player.health -= amount;
-         } else {
-            return 'total damage : ' + amount.toString();
-         }
-      } else {
-         return this.kill(pc);
-      }
-   }
-
-   leechHealth(pc){
-      let amount = pc.weapon.damage;
-      if(pc.health < this.maxhealth){
-         this.player.health += amount;
-         return this.getFullName(pc) + ' healed for ' + amount.toString();
-      } else {
-         return this.getFullName(pc) + ' at full health';
-      }
+   componentWillUnmount() {
+      clearInterval(this.interval);
    }
 
    beginCombat(pc, npc){
-      return this.getTargetInfo(pc) + ' fights ' + this.getTargetInfo(npc);
+      return targetInfo(pc) + ' fights ' + targetInfo(npc);
    }
 
    // doCombatLog() {
-   doCombatLog(index) {
+   doCombatLog() {
       let pc = this.player;
       let npc = this.enemy;
       const styles = {
@@ -153,28 +85,31 @@ class App extends React.Component {
       };
       const actions = [
          { text:this.beginCombat(pc, npc), style:styles.message },
-         { text:this.doWeaponDamage(pc), style:styles.dmg },
-         { text:this.doPowerDamage(pc), style:styles.dmg },
-         { text:this.playerDealsDamage(pc, npc), style:styles.dmg },
-         { text:this.getTargetInfo(npc), style:styles.message },
-         { text:this.doWeaponDamage(npc), style:styles.hit },
-         { text:this.doPowerDamage(npc), style:styles.hit },
-         { text:this.enemyDealsDamage(pc, npc), style:styles.hit },
-         { text:this.getTargetInfo(pc), style:styles.message },
-         { text:this.leechHealth(pc, npc), style:styles.heal },
-         { text:this.getTargetInfo(pc), style:styles.message },
+         { text:doWeaponDamage(pc), style:styles.dmg },
+         { text:doPowerDamage(pc), style:styles.dmg },
+         { text:playerDamage(pc, npc), style:styles.dmg },
+         { text:targetInfo(npc), style:styles.message },
+         { text:doWeaponDamage(npc), style:styles.hit },
+         { text:doPowerDamage(npc), style:styles.hit },
+         { text:enemyDamage(pc, npc), style:styles.hit },
+         { text:targetInfo(pc), style:styles.message },
+         { text:leechLife(pc, npc), style:styles.heal },
+         { text:targetInfo(pc), style:styles.message },
          { text:'End of log', style:styles.miss }
       ];
-      const concatItems = this.state.messages.concat(actions[index]);      
-      console.log(concatItems);
-      return concatItems;
-      // return actions;
+      if(this.isDisplayAll){
+         return actions;
+      } else {
+         const concatItems = this.state.messages.concat(actions[this.state.seconds]);      
+         // console.log(concatItems);
+         return concatItems;
+      }
    }
 
    tick() {
       let timelimit = 11;
       if(this.state.seconds < timelimit) {
-         this.items = this.doCombatLog(this.state.seconds);
+         this.items = this.doCombatLog();
          this.setState(prevState => ({
             messages: this.items,
             seconds: prevState.seconds + 1

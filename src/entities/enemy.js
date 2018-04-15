@@ -4,6 +4,8 @@ const enemy = {
    last: 'Tharn',
 	skill: 'destruction',
    health: 100,
+   maxhealth: 100,
+   healed: false,
    xp: 0,
    str: 1,
    dex: 1,

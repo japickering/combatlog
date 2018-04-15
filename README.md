@@ -4,6 +4,7 @@ Displays combat text over time using player stats manipulated from game events
 ## Features
 - Messages are highlighted in different colours reacting to game events taking place. 
 - Game objects can only perform actions while alive and display feedback about the game state.
+- Messages can be displayed all at once or using the timer in seconds
 
 ![Screen shot](public/grab.png)
 
@@ -21,6 +22,7 @@ To create a new build for deployment run the console command then follow the ste
 yarn build
 ```
 ### Changelog
+- Events and actions split into modules
 - Fixed a bug with player doing too much attack damage in a combat round 
 - Moved player & enemy objects to modules
 - Added health checks to enemies

@@ -4,6 +4,8 @@ const player = {
    last: 'Greymane',
    skill: 'flame',
    health: 100,
+   maxhealth: 100,
+   healed: false,
    xp: 0,
    str: 2,
    dex: 1,
