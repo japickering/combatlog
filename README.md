@@ -22,6 +22,7 @@ To create a new build for deployment run the console command then follow the ste
 yarn build
 ```
 ### Changelog
+- Fixed leechLife() to fire only once per round 
 - Events and actions split into modules
 - Fixed a bug with player doing too much attack damage in a combat round 
 - Moved player & enemy objects to modules

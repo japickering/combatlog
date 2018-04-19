@@ -78,9 +78,9 @@ class App extends React.Component {
       let npc = this.enemy;
       const styles = {
          message: {color: "#fff"},
+         miss: {color: "grey"},
          dmg: {color: "lightgreen"},
          hit: {color: "crimson"},
-         miss: {color: "green"},
          heal: {color: "orange"}
       };
       const actions = [
@@ -92,10 +92,9 @@ class App extends React.Component {
          { text:doWeaponDamage(npc), style:styles.hit },
          { text:doPowerDamage(npc), style:styles.hit },
          { text:enemyDamage(pc, npc), style:styles.hit },
-         { text:targetInfo(pc), style:styles.message },
          { text:leechLife(pc, npc), style:styles.heal },
          { text:targetInfo(pc), style:styles.message },
-         { text:'End of log', style:styles.miss }
+         { text:'End of log', style:styles.message }
       ];
       if(this.isDisplayAll){
          return actions;

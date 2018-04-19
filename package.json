@@ -5,8 +5,8 @@
   "description": "Combat text for an action RPG",
   "author": "James A Pickering",
   "dependencies": {
-    "react": "^16.3.1",
-    "react-dom": "^16.3.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
     "react-scripts": "1.1.4"
   },
   "scripts": {
