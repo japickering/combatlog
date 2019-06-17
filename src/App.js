@@ -8,6 +8,8 @@ import leechLife from './actions/leechlife';
 import doWeaponDamage from './actions/doweapondamage';
 import doPowerDamage from './actions/dopowerdamage';
 
+const TITLE = "Combat Log component for Action RPGs";
+
 class App extends React.Component {
 
    constructor(props) {
@@ -72,7 +74,6 @@ class App extends React.Component {
       return targetInfo(pc) + ' fights ' + targetInfo(npc);
    }
 
-   // doCombatLog() {
    doCombatLog() {
       let pc = this.player;
       let npc = this.enemy;
@@ -100,7 +101,6 @@ class App extends React.Component {
          return actions;
       } else {
          const concatItems = this.state.messages.concat(actions[this.state.seconds]);      
-         // console.log(concatItems);
          return concatItems;
       }
    }
@@ -123,10 +123,9 @@ class App extends React.Component {
    }
 
    render() {
-      // console.log(this.state.messages);
       return (
          <main>
-            <h1>Combat Log</h1>
+            <h1>{TITLE}</h1>
             <button onClick={this.handleReloadClick}>Reload</button>
             <div className="timer">
               <strong>Seconds:</strong> {this.state.seconds}
