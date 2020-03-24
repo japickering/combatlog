@@ -17,7 +17,7 @@ export default class App extends Component {
     this.enemy = enemy;
     this.getCombatLog = this.getCombatLog.bind(this);
     this.onReload = this.onReload.bind(this);
-    this.displayModeAll = false;
+    this.displayAll = false;
 
     this.state = {
       messages: [],
@@ -26,7 +26,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    if (this.displayModeAll) {
+    if (this.displayAll) {
       console.log("Mode: all");
       this.items = this.getCombatLog();
       let results = this.items.map(function(item) {
@@ -51,7 +51,7 @@ export default class App extends Component {
       messages: [],
       seconds: 0
     });
-    if (this.displayModeAll) {
+    if (this.displayAll) {
       this.items = this.getCombatLog();
       let results = this.items.map(function(item) {
         return item;
@@ -92,7 +92,7 @@ export default class App extends Component {
       { text: "End combat round", style: styles.message }
     ];
 
-    if (this.displayModeAll) {
+    if (this.displayAll) {
       return actions;
     } else {
       const concatItems = this.state.messages.concat(
