@@ -1,6 +1,6 @@
-import titleCase from './titlecase';
+import titleCase from './titleCase';
 
-function getFullName(ob) {
+const getFullName = (ob) => {
    return titleCase(ob.first) + " " + titleCase(ob.last);
 }
 export default getFullName;

@@ -1,7 +1,7 @@
-import getFullName from '../utils/getfullname';
+import getFullName from '../utils/getFullName';
 
-function leechLife(pc){
-   let amount = pc.weapon.damage;
+const leechLife = (pc) => {
+   const amount = pc.weapon.damage;
    if(pc.health < pc.maxhealth){
       if(pc.healed){
          return getFullName(pc) + ' healed for ' + amount.toString();

@@ -1,11 +1,11 @@
-import getFullName from '../utils/getfullname';
+import getFullName from '../utils/getFullName';
 
-function kill(ob){
+const kill = (ob) => {
    return getFullName(ob) + ' is dead';
 }
 
-function enemyDamage(pc, npc){
-   let amount = npc.weapon.damage + npc.power.damage;
+const enemyDamage = (pc, npc) => {
+   const amount = npc.weapon.damage + npc.power.damage;
    if(npc.health <= 0) {
       return getFullName(npc) + ' is dead';
    } else if (pc.health > 0){

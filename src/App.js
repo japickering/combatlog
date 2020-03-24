@@ -1,147 +1,140 @@
-import React from 'react';
-import player from './entities/player';
-import enemy from './entities/enemy';
-import targetInfo from './utils/targetinfo';
-import playerDamage from './actions/playerdamage';
-import enemyDamage from './actions/enemydamage';
-import leechLife from './actions/leechlife';
-import doWeaponDamage from './actions/doweapondamage';
-import doPowerDamage from './actions/dopowerdamage';
+import React, { Component } from "react";
+import player from "./classes/player";
+import enemy from "./classes/enemy";
+import targetInfo from "./utils/targetiInfo";
+import playerDamage from "./actions/playerdamage";
+import enemyDamage from "./actions/enemydamage";
+import leechLife from "./actions/leechlife";
+import weaponDamage from "./actions/weaponDamage";
+import powerDamage from "./actions/powerDamage";
 
-const TITLE = "Combat Log component for Action RPGs";
+export default class App extends Component {
+  constructor(props) {
+    super(props);
 
-class App extends React.Component {
+    this.items = [];
+    this.player = player;
+    this.enemy = enemy;
+    this.getCombatLog = this.getCombatLog.bind(this);
+    this.onReload = this.onReload.bind(this);
+    this.displayModeAll = false;
 
-   constructor(props) {
-      super(props);
-      this.items = [];
-      this.player = player;
-      this.enemy = enemy;
-      this.doCombatLog = this.doCombatLog.bind(this);
-      this.handleReloadClick = this.handleReloadClick.bind(this);
-      this.isDisplayAll = false;
+    this.state = {
+      messages: [],
+      seconds: 0
+    };
+  }
 
-      this.state = {
-         messages: [],
-         seconds: 0
-      }
-   }
-
-   componentDidMount() {
-      if(this.isDisplayAll){
-         console.log('Display mode: all');
-         this.items = this.doCombatLog();
-         let results = this.items.map(function(item) {
-            return item;
-         });
-         this.setState({
-            messages: results
-         });
-      } else {
-         console.log('Display mode: timer');
-         this.interval = setInterval(() => 
-            this.tick(), 500
-         );
-      }
-   }
-
-   handleReloadClick(){
-      // clearInterval(this.interval);
-      this.setState({
-         messages: [],
-         seconds: 0
+  componentDidMount() {
+    if (this.displayModeAll) {
+      console.log("Mode: all");
+      this.items = this.getCombatLog();
+      let results = this.items.map(function(item) {
+        return item;
       });
-      if(this.isDisplayAll){
-         this.items = this.doCombatLog();
-         let results = this.items.map(function(item) {
-            return item;
-         });
-         this.setState({
-            messages: results
-         });
-      } else {
-         this.interval = setInterval(() => 
-            this.tick(), 500
-         );
-      }
-   }
+      this.setState({
+        messages: results
+      });
+    } else {
+      console.log("Mode: timer");
+      this.interval = setInterval(() => this.tick(), 500);
+    }
+  }
 
-   componentWillUnmount() {
-      clearInterval(this.interval);
-   }
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
 
-   beginCombat(pc, npc){
-      return targetInfo(pc) + ' fights ' + targetInfo(npc);
-   }
+  onReload() {
+    // clearInterval(this.interval);
+    this.setState({
+      messages: [],
+      seconds: 0
+    });
+    if (this.displayModeAll) {
+      this.items = this.getCombatLog();
+      let results = this.items.map(function(item) {
+        return item;
+      });
+      this.setState({
+        messages: results
+      });
+    } else {
+      this.interval = setInterval(() => this.tick(), 500);
+    }
+  }
 
-   doCombatLog() {
-      let pc = this.player;
-      let npc = this.enemy;
-      const styles = {
-         message: {color: "#fff"},
-         miss: {color: "grey"},
-         dmg: {color: "lightgreen"},
-         hit: {color: "crimson"},
-         heal: {color: "orange"}
-      };
-      const actions = [
-         { text:this.beginCombat(pc, npc), style:styles.message },
-         { text:doWeaponDamage(pc), style:styles.dmg },
-         { text:doPowerDamage(pc), style:styles.dmg },
-         { text:playerDamage(pc, npc), style:styles.dmg },
-         { text:targetInfo(npc), style:styles.message },
-         { text:doWeaponDamage(npc), style:styles.hit },
-         { text:doPowerDamage(npc), style:styles.hit },
-         { text:enemyDamage(pc, npc), style:styles.hit },
-         { text:leechLife(pc, npc), style:styles.heal },
-         { text:targetInfo(pc), style:styles.message },
-         { text:'End of log', style:styles.message }
-      ];
-      if(this.isDisplayAll){
-         return actions;
-      } else {
-         const concatItems = this.state.messages.concat(actions[this.state.seconds]);      
-         return concatItems;
-      }
-   }
+  fight(pc, npc) {
+    return targetInfo(pc) + " fights " + targetInfo(npc);
+  }
 
-   tick() {
-      let timelimit = 11;
-      if(this.state.seconds < timelimit) {
-         this.items = this.doCombatLog();
-         this.setState(prevState => ({
-            messages: this.items,
-            seconds: prevState.seconds + 1
-         }));
-      } else {
-         this.setState(prevState => ({
-            messages: this.items,
-            seconds: prevState.seconds
-         }));
-         clearInterval(this.interval);
-      }
-   }
+  getCombatLog() {
+    const pc = this.player;
+    const npc = this.enemy;
+    const styles = {
+      message: { color: "#fff" },
+      miss: { color: "grey" },
+      dmg: { color: "lightgreen" },
+      hit: { color: "crimson" },
+      heal: { color: "orange" }
+    };
+    const actions = [
+      { text: this.fight(pc, npc), style: styles.message },
+      { text: weaponDamage(pc), style: styles.dmg },
+      { text: powerDamage(pc), style: styles.dmg },
+      { text: playerDamage(pc, npc), style: styles.dmg },
+      { text: targetInfo(npc), style: styles.message },
+      { text: weaponDamage(npc), style: styles.hit },
+      { text: powerDamage(npc), style: styles.hit },
+      { text: enemyDamage(pc, npc), style: styles.hit },
+      { text: leechLife(pc, npc), style: styles.heal },
+      { text: targetInfo(pc), style: styles.message },
+      { text: "End combat round", style: styles.message }
+    ];
 
-   render() {
-      return (
-         <main>
-            <h1>{TITLE}</h1>
-            <button onClick={this.handleReloadClick}>Reload</button>
-            <div className="timer">
-              <strong>Seconds:</strong> {this.state.seconds}
-            </div>
-            <div className="textbox">
-               {
-                  this.state.messages.map((item) =>
-                     <div className="damage-message" style={item.style}>
-                     {item.text}
-                     </div>
-                  )
-               }
-            </div>
-         </main>
+    if (this.displayModeAll) {
+      return actions;
+    } else {
+      const concatItems = this.state.messages.concat(
+        actions[this.state.seconds]
       );
-   }
-}
+      return concatItems;
+    }
+  }
 
-export default App;
+  tick() {
+    const timelimit = 11;
+    if (this.state.seconds < timelimit) {
+      this.items = this.getCombatLog();
+      this.setState(prevState => ({
+        messages: this.items,
+        seconds: prevState.seconds + 1
+      }));
+    } else {
+      this.setState(prevState => ({
+        messages: this.items,
+        seconds: prevState.seconds
+      }));
+      clearInterval(this.interval);
+    }
+  }
+
+  render() {
+    return (
+      <main>
+        <h1>Combat Log</h1>
+        <button onClick={this.onReload}>Reload</button>
+        <div className='timer'>
+          <strong>Seconds:</strong> {this.state.seconds}
+        </div>
+        <div className='textbox'>
+          {this.state.messages.map(item => (
+            <div className='damage-message' style={item.style}>
+              {item.text}
+            </div>
+          ))}
+        </div>
+      </main>
+    );
+  }
+}

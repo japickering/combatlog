@@ -1,14 +1,12 @@
-## Combat text for an action RPG
+# Combat log for an action RPG
 
-Displays combat text over time using player stats manipulated from game events
+Displays combat text over time using player stats generated from gameplay events.
 
 ## Features
 
 - Messages are highlighted in different colours reacting to game events taking place.
 - Game objects can only perform actions while alive and display feedback about the game state.
 - Messages can be displayed all at once or using the timer in seconds
-
-![Screen shot](public/grab.png)
 
 ### Installation
 
@@ -33,10 +31,8 @@ yarn build
 - Moved player & enemy objects to modules
 - Added health checks to enemies
 - Split players stats into distinct objects
-- added dmg calculation and heal effects
+- added damage calculation and heal effects
 - added actions queue
 - hit and miss damage text
 - damage text highlighting
 - tick() and doCombatLog() changes
-- Fixed up combat text functions
-- Initial commit
